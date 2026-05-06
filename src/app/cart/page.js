@@ -4,7 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
-import { toast } from "sonner";
+import { toast } from 'sonner';
+import { formatINR } from '@/lib/currency';
 
 export default function CartPage() {
   const { cart, removeFromCart, updateQuantity, cartTotal, cartCount, clearCart } = useCart();
@@ -14,7 +15,7 @@ export default function CartPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 text-center">
         <ShoppingBag className="w-20 h-20 text-gray-200 mx-auto mb-4" />
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h1>
-        <p className="text-gray-500 mb-6">Looks like you haven't added anything yet.</p>
+        <p className="text-gray-500 mb-6">Looks like you haven&#39;t added anything yet.</p>
         <Link
           href="/"
           className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-sm font-medium transition-colors"
@@ -29,7 +30,6 @@ export default function CartPage() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Shopping Cart ({cartCount} items)</h1>
 
-      {/* Cart Items */}
       <div className="space-y-4 mb-8">
         {cart.map(item => (
           <div
@@ -37,7 +37,6 @@ export default function CartPage() {
             id={`cart-item-${item.id}`}
             className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex gap-4 items-center"
           >
-            {/* Image */}
             <Link href={`/product/${item.id}`} className="shrink-0">
               <div className="w-20 h-20 bg-white rounded-lg flex items-center justify-center p-2 border border-gray-200">
                 <Image
@@ -50,7 +49,6 @@ export default function CartPage() {
               </div>
             </Link>
 
-            {/* Details */}
             <div className="flex-1 min-w-0">
               <Link href={`/product/${item.id}`}>
                 <h3 className="text-sm font-medium text-gray-900 line-clamp-1 hover:text-blue-600 transition-colors">
@@ -58,10 +56,9 @@ export default function CartPage() {
                 </h3>
               </Link>
               <p className="text-xs text-gray-500 capitalize mt-0.5">{item.category}</p>
-              <p className="text-sm font-bold text-gray-900 mt-1">₹{item.price.toFixed(2)}</p>
+              <p className="text-sm font-bold text-gray-900 mt-1">{formatINR(item.price)}</p>
             </div>
 
-            {/* Quantity Controls */}
             <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden shrink-0">
               <button
                 onClick={() => updateQuantity(item.id, item.quantity - 1)}
@@ -80,12 +77,10 @@ export default function CartPage() {
               </button>
             </div>
 
-            {/* Subtotal */}
             <div className="text-right shrink-0 hidden sm:block">
-              <p className="text-sm font-bold text-gray-900">₹{(item.price * item.quantity).toFixed(2)}</p>
+              <p className="text-sm font-bold text-gray-900">{formatINR(item.price * item.quantity)}</p>
             </div>
 
-            {/* Remove */}
             <button
               onClick={() => removeFromCart(item.id)}
               className="text-gray-300 hover:text-red-500 transition-colors shrink-0 cursor-pointer"
@@ -96,13 +91,12 @@ export default function CartPage() {
         ))}
       </div>
 
-      {/* Summary */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">Order Summary</h2>
         <div className="space-y-2 mb-4">
           <div className="flex justify-between text-sm">
             <span className="text-gray-500">Subtotal ({cartCount} items)</span>
-            <span className="text-gray-900 font-medium">₹{cartTotal.toFixed(2)}</span>
+            <span className="text-gray-900 font-medium">{formatINR(cartTotal)}</span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-gray-500">Shipping</span>
@@ -111,12 +105,12 @@ export default function CartPage() {
         </div>
         <div className="border-t border-gray-200 pt-4 flex justify-between items-center">
           <span className="text-lg font-bold text-gray-900">Total</span>
-          <span className="text-xl font-bold text-gray-900">₹{cartTotal.toFixed(2)}</span>
+          <span className="text-xl font-bold text-gray-900">{formatINR(cartTotal)}</span>
         </div>
 
         <div className="mt-6 flex flex-col sm:flex-row gap-3">
           <button
-            onClick={() => toast.info("Checkout Functionality has not been implemented yet")}
+            onClick={() => toast.info('Checkout has not been implemented yet')}
             className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg text-sm font-semibold transition-colors cursor-pointer"
           >
             Proceed to Checkout

@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import ProductActions from './ProductActions';
+import { formatINR } from '@/lib/currency';
 
 export default async function ProductPage({ params }) {
   const { id } = await params;
@@ -24,7 +25,6 @@ export default async function ProductPage({ params }) {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
-          {/* Image Section */}
           <div className="bg-white flex items-center justify-center p-8 md:p-12 min-h-[350px]">
             <Image
               src={product.image}
@@ -35,9 +35,7 @@ export default async function ProductPage({ params }) {
             />
           </div>
 
-          {/* Details Section */}
           <div className="p-6 md:p-8 flex flex-col">
-            {/* Category Badge */}
             <span className="inline-block text-xs font-medium text-blue-600 bg-blue-50 px-3 py-1 rounded-full w-fit mb-3 capitalize">
               {product.category}
             </span>
@@ -46,7 +44,6 @@ export default async function ProductPage({ params }) {
               {product.title}
             </h1>
 
-            {/* Rating */}
             <div className="flex items-center gap-1.5 mb-4">
               {Array.from({ length: 5 }).map((_, i) => (
                 <svg
@@ -63,17 +60,14 @@ export default async function ProductPage({ params }) {
               </span>
             </div>
 
-            {/* Price */}
             <div className="text-3xl font-bold text-gray-900 mb-5">
-              ₹{product.price.toFixed(2)}
+              {formatINR(product.price)}
             </div>
 
-            {/* Description */}
             <p className="text-sm text-gray-500 leading-relaxed mb-6">
               {product.description}
             </p>
 
-            {/* Add to Cart */}
             <ProductActions product={product} />
           </div>
         </div>

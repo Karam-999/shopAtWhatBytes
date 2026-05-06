@@ -21,7 +21,6 @@ export default function ProductActions({ product }) {
 
   return (
     <div className="mt-auto space-y-4">
-      {/* Quantity Selector */}
       <div className="flex items-center gap-3">
         <span className="text-sm font-medium text-gray-900">Quantity:</span>
         <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden">
@@ -43,21 +42,17 @@ export default function ProductActions({ product }) {
         </div>
       </div>
 
-      {/* Add to Cart Button */}
       <button
         onClick={handleAdd}
         id="product-add-to-cart"
         className={`w-full flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
-          added
-            ? 'bg-green-500 text-white'
-            : 'bg-blue-600 hover:bg-blue-700 text-white'
+          added ? 'bg-green-500 text-white' : 'bg-blue-600 hover:bg-blue-700 text-white'
         }`}
       >
         <ShoppingCart className="w-4 h-4" />
         {added ? 'Added to Cart!' : 'Add to Cart'}
       </button>
 
-      {/* Back to Products */}
       <button
         onClick={() => router.push('/')}
         className="w-full py-2.5 rounded-lg text-sm font-medium text-gray-500 border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer"

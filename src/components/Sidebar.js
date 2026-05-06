@@ -15,7 +15,7 @@ export default function Sidebar() {
   const searchParams = useSearchParams();
 
   const activeCategory = searchParams.get('category') || 'all';
-  const maxPrice = Number(searchParams.get('price')) || 1000;
+  const maxPrice = Number(searchParams.get('price')) || 100000;
 
   const updateFilters = (key, value) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -28,27 +28,23 @@ export default function Sidebar() {
   };
 
   return (
-    <aside id="sidebar-filters" className="w-full lg:w-64 shrink-0">
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-        <h2 className="text-lg font-bold text-gray-900 mb-4">Filters</h2>
+    <aside id="sidebar-filters" className="w-full lg:w-64 shrink-0 text-white">
+      <div className="rounded-xl shadow-sm border border-gray-200 p-5" style={{ backgroundColor: '#0758A8' }}>
+        <h2 className="text-lg font-bold mb-4">Filters</h2>
 
-        {/* Category Filter */}
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">Category</h3>
+          <h3 className="text-sm font-semibold mb-3 uppercase tracking-wide">Category</h3>
           <div className="space-y-2">
             {CATEGORIES.map(cat => (
-              <label
-                key={cat.value}
-                className="flex items-center gap-2.5 cursor-pointer group"
-              >
+              <label key={cat.value} className="flex items-center gap-2.5 cursor-pointer group">
                 <input
                   type="radio"
                   name="category"
                   checked={activeCategory === cat.value}
                   onChange={() => updateFilters('category', cat.value)}
-                  className="w-4 h-4 text-blue-600 accent-blue-600 cursor-pointer"
+                  className="w-4 h-4 text-white cursor-pointer"
                 />
-                <span className={`text-sm transition-colors ${activeCategory === cat.value ? 'text-gray-900 font-medium' : 'text-gray-500 group-hover:text-gray-900'}`}>
+                <span className={`text-sm transition-colors ${activeCategory === cat.value ? 'text-white font-medium' : 'text-white'}`}>
                   {cat.label}
                 </span>
               </label>
@@ -56,21 +52,20 @@ export default function Sidebar() {
           </div>
         </div>
 
-        {/* Price Filter */}
         <div>
-          <h3 className="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">Price</h3>
+          <h3 className="text-sm font-semibold text-white mb-3 uppercase tracking-wide">Price</h3>
           <input
             type="range"
             min="0"
-            max="1000"
-            step="10"
+            max="100000"
+            step="500"
             value={maxPrice}
             onChange={(e) => updateFilters('price', e.target.value)}
             className="w-full mb-2"
           />
-          <div className="flex justify-between text-xs text-gray-500">
+          <div className="flex justify-between text-xs text-white">
             <span>₹0</span>
-            <span className="font-medium text-gray-900">₹{maxPrice}</span>
+            <span className="font-medium">₹{maxPrice.toLocaleString('en-IN')}</span>
           </div>
         </div>
       </div>

@@ -22,10 +22,8 @@ export default function Header() {
   };
 
   return (
-    <header id="site-header" className="bg-slate-900 sticky top-0 z-50 shadow-md">
+    <header id="site-header" className="sticky top-0 z-50 shadow-md" style={{ backgroundColor: '#0758a9' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-3 sm:gap-6">
-
-        {/* Logo */}
         <Link href="/" className="shrink-0 flex items-center gap-2">
           <Image
             src="/shopatwhatbytes.png"
@@ -36,7 +34,6 @@ export default function Header() {
           />
         </Link>
 
-        {/* Search Bar */}
         <form onSubmit={handleSearch} className="flex-1 max-w-xl mx-auto">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -51,11 +48,11 @@ export default function Header() {
           </div>
         </form>
 
-        {/* Cart Button */}
         <Link
           href="/cart"
           id="cart-button"
-          className="relative flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors"
+          className="relative flex items-center gap-2 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors"
+          style={{ backgroundColor: '#002A5A' }}
         >
           <ShoppingCart className="w-4 h-4" />
           <span className="hidden sm:inline">Cart</span>

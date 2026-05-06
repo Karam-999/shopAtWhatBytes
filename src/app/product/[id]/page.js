@@ -1,22 +1,62 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import ProductActions from './ProductActions';
 import { formatINR } from '@/lib/currency';
 
-export default async function ProductPage({ params }) {
-  const { id } = await params;
+export default function ProductPage() {
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  let product;
-  try {
-    const res = await fetch(`https://fakestoreapi.com/products/${id}`, {
-      cache: 'no-store',
-    });
-    if (!res.ok) throw new Error(`API error: ${res.status}`);
-    product = await res.json();
-  } catch {
+  useEffect(() => {
+    setLoading(true);
+    fetch(`https://fakestoreapi.com/products/${id}`)
+      .then(res => {
+        if (!res.ok) throw new Error('Not found');
+        return res.json();
+      })
+      .then(data => {
+        setProduct(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError(true);
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-0 animate-pulse">
+            <div className="bg-gray-100 min-h-[350px]" />
+            <div className="p-6 md:p-8 space-y-4">
+              <div className="h-6 bg-gray-100 rounded w-24" />
+              <div className="h-8 bg-gray-100 rounded w-3/4" />
+              <div className="h-4 bg-gray-100 rounded w-1/3" />
+              <div className="h-10 bg-gray-100 rounded w-32" />
+              <div className="space-y-2">
+                <div className="h-3 bg-gray-100 rounded w-full" />
+                <div className="h-3 bg-gray-100 rounded w-full" />
+                <div className="h-3 bg-gray-100 rounded w-2/3" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !product) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 text-center">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Product Not Found</h1>
-        <p className="text-gray-500">The product you&#39;re looking for doesn&#39;t exist or failed to load.</p>
+        <p className="text-gray-500">The product you&apos;re looking for doesn&apos;t exist.</p>
       </div>
     );
   }

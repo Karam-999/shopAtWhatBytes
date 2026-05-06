@@ -5,20 +5,22 @@ import { formatINR } from '@/lib/currency';
 export default async function ProductPage({ params }) {
   const { id } = await params;
 
-  const res = await fetch(`https://fakestoreapi.com/products/${id}`, {
-    next: { revalidate: 3600 },
-  });
-
-  if (!res.ok) {
+  let product;
+  try {
+    const res = await fetch(`https://fakestoreapi.com/products/${id}`, {
+      cache: 'no-store',
+    });
+    if (!res.ok) throw new Error(`API error: ${res.status}`);
+    product = await res.json();
+  } catch {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 text-center">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Product Not Found</h1>
-        <p className="text-gray-500">The product you&#39;re looking for doesn&#39;t exist.</p>
+        <p className="text-gray-500">The product you&#39;re looking for doesn&#39;t exist or failed to load.</p>
       </div>
     );
   }
 
-  const product = await res.json();
   const fullStars = Math.floor(product.rating.rate);
 
   return (
